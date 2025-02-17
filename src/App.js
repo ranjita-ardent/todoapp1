@@ -4,7 +4,6 @@ import { setCurrentSection, addTodo, toggleTodoCompletion, clearCompleted, delet
 import TodoList from './components/TodoList';
 import './App.css';
 
-
 function App() {
   const dispatch = useDispatch();
   const todos = useSelector(state => state.todos);
@@ -38,20 +37,20 @@ function App() {
         todoText: todoInput.trim(),
         section: todos.currentSection,
       }));
-      setTodoInput('');
+      setTodoInput(''); // Clear input field after adding
     } else {
       alert('Please enter a task before clicking Add!');
     }
   };
 
   // Handle toggling todo completion
-  const handleTodoClick = (todoText) => {
-    dispatch(toggleTodoCompletion(todoText));
+  const handleTodoClick = (todoId) => {
+    dispatch(toggleTodoCompletion({ id: todoId, section: todos.currentSection }));
   };
 
   // Handle deleting todo
-  const handleDeleteTodo = (todoText) => {
-    dispatch(deleteTodo(todoText));
+  const handleDeleteTodo = (todoId) => {
+    dispatch(deleteTodo({ id: todoId, section: todos.currentSection }));
   };
 
   // Handle clearing completed todos
