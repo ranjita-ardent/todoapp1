@@ -2,17 +2,19 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch } from 'react-redux';
-import { deleteTodo, markCompleted } from '../features/todosSlice';
+import { deleteTodo, toggleTodoCompletion } from '../features/todosSlice';
 
 const TodoItem = ({ todo, section }) => {
   const dispatch = useDispatch();
 
-  const handleDelete = () => {
-    dispatch(deleteTodo({ todoText: todo.text, section }));
+  // Handle radio button click to toggle completion status
+  const handleComplete = () => {
+    dispatch(toggleTodoCompletion({ id: todo.id, section })); // Pass the unique ID
   };
 
-  const handleComplete = () => {
-    dispatch(markCompleted({ todoText: todo.text, section }));
+  // Handle delete button click to delete the todo from the current section
+  const handleDelete = () => {
+    dispatch(deleteTodo({ id: todo.id, section })); // Pass the unique ID
   };
 
   return (
@@ -23,7 +25,12 @@ const TodoItem = ({ todo, section }) => {
         checked={todo.completed}
         onChange={handleComplete}
       />
-      <label>{todo.text}</label>
+      <label
+        className={`todo-text ${todo.completed ? 'line-through' : ''}`}
+        onClick={handleComplete}
+      >
+        {todo.todoText}
+      </label>
       <FontAwesomeIcon
         icon={faTrashAlt}
         className="todo-delete"
